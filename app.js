@@ -22,11 +22,12 @@ const inputScreen = document.querySelector('.calc-input');
 const btnList = document.getElementsByClassName('btn');
 const operatorList = ['(',')','%','AC','X','/','+','-','='];
 const btnObjList = [];
-const total = 'works';
+let calculation = [];
+let total = 'works';
 const ObjFactory = function (str){
     return {
         id:str,
-        func: operatorList.indexOf(str) !==-1? calculateFunc[str] : false,
+        isOperator: operatorList.indexOf(str) !==-1? true : false,
 
     }
 }
@@ -39,9 +40,17 @@ const calculateFunc = {
     '/':function(x,y){return x/y},
     '+':function(x,y){return x+y},
     '-':function(x,y){return x-y},
-    '%':function(x){return x/100},
+    '%':function(x){return inputScreen.innerHTML = `${x/100}`},
 }
 for(btn of btnList){
     btnObjList.push(ObjFactory(btn.innerHTML));
-    btn.addEventListener('click',(event)=>inputScreen.innerHTML+=event.target.innerHTML);
+    btn.addEventListener('click',(event)=>{
+        if(btnObjList.filter((x)=>x.id === event.target.innerHTML)[0].isOperator===true){
+            calculation.push(inputScreen.innerHTML);
+            calculation.push(event.target.innerHTML);
+        }
+        if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
+            inputScreen.innerHTML = event.target.innerHTML;
+        }
+        else{inputScreen.innerHTML+=event.target.innerHTML}});
 }
