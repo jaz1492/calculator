@@ -31,14 +31,11 @@ const calculateFunc = {
     '/':function(x,y){return x/y},
     '+':function(x,y){return x+y},
     '-':function(x,y){return x-y},
-    '%':function(x){return inputScreen.innerHTML = `${x/100}`},
 }
 for(btn of btnList){
     btn.addEventListener('click',(event)=>{
         // if(operatorList.indexOf(event.target.innerHTML) !==-1){
         //     event.target.style.backgroundColor="white";
-
-
         // }
         // if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
         //     inputScreen.innerHTML = event.target.innerHTML;
@@ -52,6 +49,9 @@ for(btn of btnList){
             inputScreen.innerHTML.slice(1):
             inputScreen.innerHTML = '('+inputScreen.innerHTML;
           break;
+        case '%':  
+          inputScreen.innerHTML = parseInt(inputScreen.innerHTML)/100;
+          break;  
         case 'X':  
           event.target.style.backgroundColor = 'white';
           operator = text;
