@@ -1,0 +1,33 @@
+body{
+    margin: 0;
+    text-align: center;
+}
+.calc-container{
+    margin: 10% auto 0 auto;
+    background-color: grey;
+    padding: 10px;
+    width: 300px;
+    height: 340px;
+    border-radius: 15px;
+}
+.calc-screen{
+    margin: 15px auto 0 auto;
+    background-color: darkblue;
+    width: 80%;
+}
+.btn-container{
+    border: 1px solid brown;
+    width: 80%;
+    height: 60%;
+    margin: 5% auto 0 auto;
+    flex-flow: row;
+    flex-wrap: wrap;    
+}
+.btn{
+    flex: 1 1 24%;
+    border: 1px solid black;
+    background-color: yellow;
+    max-width: 200px;
+    min-height: 20px;
+}
+.flex{display: flex;}
