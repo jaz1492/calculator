@@ -8,7 +8,7 @@ Checkpoints for this calculator:
     + add a boolean to the obj for the operator
   - Give functionality to operators
     + add a template function that can tell which operator to use. 
-  - Have each part of the calculation be divided up into three parts ["2","+","3"]
+  - Have each part of the calculation be divided up into three parts ['2','+','3']
   - Clear ALL var and screen when 'clear' is pressed.
   - Client must not be able to divide by 0.
   - Calculate and show results when '=' is pressed
@@ -20,14 +20,28 @@ Checkpoints for this calculator:
 */
 const inputScreen = document.querySelector('.calc-input');
 const btnList = document.getElementsByClassName('btn');
-const operatorList = ['(',')','%','clear','X','/','+','-','='];
+const operatorList = ['(',')','%','AC','X','/','+','-','='];
+const btnObjList = [];
+const total = 'works';
 const ObjFactory = function (str){
     return {
-        id:str
-        if(str)
+        id:str,
+        func: operatorList.indexOf(str) !==-1? calculateFunc[str] : false,
+
     }
 }
-
+const calculateFunc = {
+    '(':function(){return},
+    ')':function(){return},
+    'AC':function(){return inputScreen.innerHTML=''},
+    '=':function(){return inputScreen.innerHTML = total},
+    'X':function(x,y){return x*y},
+    '/':function(x,y){return x/y},
+    '+':function(x,y){return x+y},
+    '-':function(x,y){return x-y},
+    '%':function(x){return x/100},
+}
 for(btn of btnList){
-    btn.addEventListener("click",(event)=>inputScreen.innerHTML+=event.target.innerHTML);
+    btnObjList.push(ObjFactory(btn.innerHTML));
+    btn.addEventListener('click',(event)=>inputScreen.innerHTML+=event.target.innerHTML);
 }
