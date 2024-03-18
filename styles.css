@@ -11,9 +11,21 @@ body{
     border-radius: 15px;
 }
 .calc-screen{
-    margin: 15px auto 0 auto;
+    text-align: right;
+    margin: 10px auto 0 auto;
+    padding: 5px;
     background-color: darkblue;
-    width: 80%;
+    width: calc(80% - 10px);
+    min-height:60px;
+}
+.calc-equation{
+    margin: 0;
+    height: 24px;
+}
+.calc-input{
+    margin: 0;
+    margin-top: 7px;
+    height: 28px;
 }
 .btn-container{
     border: 1px solid brown;
