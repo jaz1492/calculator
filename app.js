@@ -1,8 +1,9 @@
 /*
 Checkpoints for this calculator:
   - Set an eventListener to show input on the screen.
-    + Create an Obj for each btn with key value pairs
-    + have a module produce the text for the screen
+    + Create a case for each btn
+        * have the case produce the text for the screen
+        * have the case push the int and keep track of operators
   - Differentiate between num and operator 
     + Have a list of operations to check if it is an operator
     + add a boolean to the obj for the operator
@@ -23,19 +24,9 @@ const btnList = document.getElementsByClassName('btn');
 const operatorList = ['(',')','%','AC','X','/','+','-','='];
 const btnObjList = [];
 let calculation = [];
+let operator = '';
 let total = 'works';
-const ObjFactory = function (str){
-    return {
-        id:str,
-        isOperator: operatorList.indexOf(str) !==-1? true : false,
-
-    }
-}
 const calculateFunc = {
-    '(':function(){return},
-    ')':function(){return},
-    'AC':function(){return inputScreen.innerHTML=''},
-    '=':function(){return inputScreen.innerHTML = total},
     'X':function(x,y){return x*y},
     '/':function(x,y){return x/y},
     '+':function(x,y){return x+y},
@@ -43,14 +34,46 @@ const calculateFunc = {
     '%':function(x){return inputScreen.innerHTML = `${x/100}`},
 }
 for(btn of btnList){
-    btnObjList.push(ObjFactory(btn.innerHTML));
     btn.addEventListener('click',(event)=>{
-        if(btnObjList.filter((x)=>x.id === event.target.innerHTML)[0].isOperator===true){
-            calculation.push(inputScreen.innerHTML);
-            calculation.push(event.target.innerHTML);
-        }
-        if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
-            inputScreen.innerHTML = event.target.innerHTML;
-        }
-        else{inputScreen.innerHTML+=event.target.innerHTML}});
-}
+        // if(operatorList.indexOf(event.target.innerHTML) !==-1){
+        //     event.target.style.backgroundColor="white";
+
+
+        // }
+        // if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
+        //     inputScreen.innerHTML = event.target.innerHTML;
+        // }
+        // else{inputScreen.innerHTML+=event.target.innerHTML};
+        const text = event.target.innerHTML;
+      switch (text){
+        case '(':  
+          event.target.style.backgroundColor = 'white';
+          inputScreen.innerHTML = inputScreen.innerHTML[0] === '('?
+            inputScreen.innerHTML.slice(1):
+            inputScreen.innerHTML = '('+inputScreen.innerHTML;
+          break;
+        case 'X':  
+          event.target.style.backgroundColor = 'white';
+          operator = text;
+          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          break;
+        case '/':  
+          event.target.style.backgroundColor = 'white';
+          operator = text;
+          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          break;
+        case '-':  
+          event.target.style.backgroundColor = 'white';
+          operator = text;
+          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          break;
+        case '+':  
+          event.target.style.backgroundColor = 'white';
+          operator = text;
+          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          break;
+        default:
+          inputScreen.innerHTML+= event.target.innerHTML;
+          break;
+      }
+      })}

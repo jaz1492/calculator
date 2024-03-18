@@ -4,7 +4,7 @@ body{
 }
 .calc-container{
     margin: 10% auto 0 auto;
-    background-color: grey;
+    background-color: darkblue;
     padding: 10px;
     width: 300px;
     height: 340px;
@@ -14,7 +14,7 @@ body{
     text-align: right;
     margin: 10px auto 0 auto;
     padding: 5px;
-    background-color: darkblue;
+    background-color: grey;
     width: calc(80% - 10px);
     min-height:60px;
 }
