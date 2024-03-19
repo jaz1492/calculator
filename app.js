@@ -22,33 +22,39 @@ Checkpoints for this calculator:
 const equaScreen = document.querySelector('.calc-equation');
 const inputScreen = document.querySelector('.calc-input');
 const btnList = document.getElementsByClassName('btn');
-const operatorList = ['(',')','%','AC','X','/','+','-','='];
+const operatorList = ['DEL','%','AC','X','/','+','-','='];
 let total = [];
-let regex = /[X,/,+,-]/g;
+let regex = /[X,/,+,-]/;
 const calculateFunc = {
     'X':function(x,y){return x*y},
     '/':function(x,y){return x/y},
     '+':function(x,y){return x+y},
     '-':function(x,y){return x-y},
 }
+const checkForMultOperator = function(eventText){
+  //this conditional finds out if the last input is any operator so we can make sure not to put mult. operators
+  if(regex.test(inputScreen.innerHTML[inputScreen.innerHTML.length-2])){
+    return inputScreen.innerHTML = inputScreen.innerHTML.slice(0,inputScreen.innerHTML.length-2)+eventText+' ';
+  }
+  else{
+    return inputScreen.innerHTML+=' '+eventText+' ';
+  } 
+}
 for(btn of btnList){
+  if(operatorList.indexOf(btn.innerHTML) !==-1){
+    btn.style.backgroundColor='white';
+    
+}
     btn.addEventListener('click',(event)=>{
-        // if(operatorList.indexOf(event.target.innerHTML) !==-1){
-        //     event.target.style.backgroundColor="white";
-        // }
-        // if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
-        //     inputScreen.innerHTML = event.target.innerHTML;
-        // }
-        // else{inputScreen.innerHTML+=event.target.innerHTML};
-        const text = event.target.innerHTML;
-      switch (text){
+      const eventText = event.target.innerHTML;
+      switch (eventText){
         case 'AC':
           inputScreen.innerHTML='0'
           break;
         case 'DEL':  
-          event.target.style.backgroundColor = 'white';
-          inputScreen.innerHTML = inputScreen.innerHTML.slice(0,-1);
-          setTimeout(()=>event.target.style.backgroundColor = 'yellow',50);
+          event.target.style.backgroundColor = 'yellow';
+          inputScreen.innerHTML = inputScreen.innerHTML.slice(0,-1) == ''? '0' :inputScreen.innerHTML.slice(0,-1);
+          setTimeout(()=>event.target.style.backgroundColor = 'white',50);
           break;
         case '%':  
           if(parseInt(inputScreen.innerHTML)<=0){inputScreen.innerHTML = parseFloat(inputScreen.innerHTML)*100}
@@ -56,32 +62,29 @@ for(btn of btnList){
           break;  
         case 'X':  
           event.target.style.backgroundColor = 'green';
-          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';          
+          checkForMultOperator(eventText);      
           break;
         case '/':  
           event.target.style.backgroundColor = 'white';
-          operator = text;
-          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';
+          checkForMultOperator(eventText);
           break;
         case '-':  
           event.target.style.backgroundColor = 'white';
-          operator = text;
-          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';
+          checkForMultOperator(eventText);
           break;
         case '+':  
           event.target.style.backgroundColor = 'white';
-          operator = text;
-          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';
+          checkForMultOperator(eventText);
           break;
         case '=':
         total.push(inputScreen.innerHTML.split(' '));
         equaScreen.innerHTML = inputScreen.innerHTML;
         break;
         default:
-        if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
-              inputScreen.innerHTML = event.target.innerHTML;
+        if(inputScreen.innerHTML ==='0' && eventText !== '.'){
+              inputScreen.innerHTML = eventText;
         }
-         else {inputScreen.innerHTML+= event.target.innerHTML;}
+         else {inputScreen.innerHTML+= eventText;}
           break;
       }
       })}
