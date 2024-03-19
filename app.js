@@ -6,9 +6,9 @@ Checkpoints for this calculator:
         * have the case push the int and keep track of operators
   - Differentiate between num and operator 
     + Have a list of operations to check if it is an operator
-    + add a boolean to the obj for the operator
   - Give functionality to operators
     + add a template function that can tell which operator to use. 
+    + Client must not be able to use multiple operators after eachother -> '2 / / / 4'
   - Have each part of the calculation be divided up into three parts ['2','+','3']
   - Clear ALL var and screen when 'clear' is pressed.
   - Client must not be able to divide by 0.
@@ -19,13 +19,21 @@ Checkpoints for this calculator:
     + Have '.' be pressed only once per int but can cancel if pressed again.
   - Allow for a delete button.
 */
-const equaScreen = document.querySelector('.calc-equation');
+const equatScreen = document.querySelector('.calc-equation');
 const inputScreen = document.querySelector('.calc-input');
 const btnList = document.getElementsByClassName('btn');
 const operatorList = ['DEL','%','AC','X','/','+','-','='];
 let total = [];
 let regex = /[X,/,+,-]/;
-const calculateFunc = {
+const calculateEquation = function(arr){
+  while(arr.length>1){
+  let equation = arr.splice(0,3);
+  let equationTotal = calculateFuncs[equation[1]](parseInt(equation[0]),parseInt(equation[2]));
+  arr.unshift(equationTotal.toString())
+}
+return arr[0]
+}
+const calculateFuncs = {
     'X':function(x,y){return x*y},
     '/':function(x,y){return x/y},
     '+':function(x,y){return x+y},
@@ -78,7 +86,8 @@ for(btn of btnList){
           break;
         case '=':
         total.push(inputScreen.innerHTML.split(' '));
-        equaScreen.innerHTML = inputScreen.innerHTML;
+        equatScreen.innerHTML = inputScreen.innerHTML;
+        inputScreen.innerHTML = calculateEquation(inputScreen.innerHTML.split(' '))
         break;
         default:
         if(inputScreen.innerHTML ==='0' && eventText !== '.'){
