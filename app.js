@@ -22,20 +22,25 @@ Checkpoints for this calculator:
 const equatScreen = document.querySelector('.calc-equation');
 const inputScreen = document.querySelector('.calc-input');
 const btnList = document.getElementsByClassName('btn');
+const keyTextList = ['+','-','/','*','Backspace','Enter','1','2','3','4','5','6','7','8','9','0','.','%'];
 const operatorList = ['DEL','%','AC','X','/','+','-','='];
-let total = [];
 let regex = /[X,/,+,-]/;
+let calculationDone = false;
 const calculateEquation = function(arr){
+  calculationDone=true;
   while(arr.length>1){
   let equation = arr.splice(0,3);
-  let equationTotal = calculateFuncs[equation[1]](parseInt(equation[0]),parseInt(equation[2]));
+  let equationTotal = calculateFuncs[equation[1]](parseFloat(equation[0]),parseFloat(equation[2]));
   arr.unshift(equationTotal.toString())
 }
+calculationDone = true;
 return arr[0]
 }
 const calculateFuncs = {
     'X':function(x,y){return x*y},
-    '/':function(x,y){return x/y},
+    '/':function(x,y){
+      if(y===0){return 'NICE TRY @.@'}
+      return x/y},
     '+':function(x,y){return x+y},
     '-':function(x,y){return x-y},
 }
@@ -51,13 +56,13 @@ const checkForMultOperator = function(eventText){
 for(btn of btnList){
   if(operatorList.indexOf(btn.innerHTML) !==-1){
     btn.style.backgroundColor='white';
-    
 }
     btn.addEventListener('click',(event)=>{
       const eventText = event.target.innerHTML;
       switch (eventText){
         case 'AC':
-          inputScreen.innerHTML='0'
+          equatScreen.innerHTML='';
+          inputScreen.innerHTML='0';
           break;
         case 'DEL':  
           event.target.style.backgroundColor = 'yellow';
@@ -68,32 +73,81 @@ for(btn of btnList){
           if(parseInt(inputScreen.innerHTML)<=0){inputScreen.innerHTML = parseFloat(inputScreen.innerHTML)*100}
           else{inputScreen.innerHTML = parseInt(inputScreen.innerHTML)/100}
           break;  
-        case 'X':  
+        case 'X': 
+          calculationDone = false; 
           event.target.style.backgroundColor = 'green';
           checkForMultOperator(eventText);      
           break;
         case '/':  
-          event.target.style.backgroundColor = 'white';
+          calculationDone = false;
+          event.target.style.backgroundColor = 'green';
           checkForMultOperator(eventText);
           break;
         case '-':  
-          event.target.style.backgroundColor = 'white';
+          calculationDone = false; 
+          event.target.style.backgroundColor = 'green';
           checkForMultOperator(eventText);
           break;
         case '+':  
-          event.target.style.backgroundColor = 'white';
+          calculationDone = false;
+          event.target.style.backgroundColor = 'green';
           checkForMultOperator(eventText);
           break;
         case '=':
-        total.push(inputScreen.innerHTML.split(' '));
         equatScreen.innerHTML = inputScreen.innerHTML;
         inputScreen.innerHTML = calculateEquation(inputScreen.innerHTML.split(' '))
         break;
         default:
-        if(inputScreen.innerHTML ==='0' && eventText !== '.'){
+
+        if(inputScreen.innerHTML ==='0' && eventText !== '.' || calculationDone == true){
+              calculationDone = false;
               inputScreen.innerHTML = eventText;
         }
          else {inputScreen.innerHTML+= eventText;}
           break;
       }
-      })}
+      });}
+document.addEventListener("keyup",(event)=>{
+  if(keyTextList.indexOf(event.key)!== -1){
+    const eventKey = event.key;
+    console.log(event);
+    switch (eventKey){
+      case 'Backspace':  
+        event.target.style.backgroundColor = 'yellow';
+        inputScreen.innerHTML = inputScreen.innerHTML.slice(0,-1) == ''? '0' :inputScreen.innerHTML.slice(0,-1);
+        setTimeout(()=>event.target.style.backgroundColor = 'white',50);
+        break;
+      case '%':  
+        if(parseInt(inputScreen.innerHTML)<=0){inputScreen.innerHTML = parseFloat(inputScreen.innerHTML)*100}
+        else{inputScreen.innerHTML = parseInt(inputScreen.innerHTML)/100}
+        break;  
+      case '*': 
+        calculationDone = false; 
+        checkForMultOperator('X');      
+        break;
+      case '/':  
+        calculationDone = false;
+        checkForMultOperator(eventKey);
+        break;
+      case '-':  
+        calculationDone = false; 
+        checkForMultOperator(eventKey);
+        break;
+      case '+':  
+        calculationDone = false;
+        checkForMultOperator(eventKey);
+        break;
+      case 'Enter':
+      equatScreen.innerHTML = inputScreen.innerHTML;
+      inputScreen.innerHTML = calculateEquation(inputScreen.innerHTML.split(' '))
+      break;
+      default:
+
+      if(inputScreen.innerHTML ==='0' && eventKey !== '.' || calculationDone == true){
+            calculationDone = false;
+            inputScreen.innerHTML = eventKey;
+      }
+      else {inputScreen.innerHTML+= eventKey;}
+        break;
+  }}
+});
