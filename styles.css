@@ -42,4 +42,7 @@ body{
     max-width: 200px;
     min-height: 20px;
 }
+.big{
+    flex-basis: 49%;
+}
 .flex{display: flex;}

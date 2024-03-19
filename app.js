@@ -19,13 +19,12 @@ Checkpoints for this calculator:
     + Have '.' be pressed only once per int but can cancel if pressed again.
   - Allow for a delete button.
 */
+const equaScreen = document.querySelector('.calc-equation');
 const inputScreen = document.querySelector('.calc-input');
 const btnList = document.getElementsByClassName('btn');
 const operatorList = ['(',')','%','AC','X','/','+','-','='];
-const btnObjList = [];
-let calculation = [];
-let operator = '';
-let total = 'works';
+let total = [];
+let regex = /[X,/,+,-]/g;
 const calculateFunc = {
     'X':function(x,y){return x*y},
     '/':function(x,y){return x/y},
@@ -43,37 +42,46 @@ for(btn of btnList){
         // else{inputScreen.innerHTML+=event.target.innerHTML};
         const text = event.target.innerHTML;
       switch (text){
-        case '(':  
+        case 'AC':
+          inputScreen.innerHTML='0'
+          break;
+        case 'DEL':  
           event.target.style.backgroundColor = 'white';
-          inputScreen.innerHTML = inputScreen.innerHTML[0] === '('?
-            inputScreen.innerHTML.slice(1):
-            inputScreen.innerHTML = '('+inputScreen.innerHTML;
+          inputScreen.innerHTML = inputScreen.innerHTML.slice(0,-1);
+          setTimeout(()=>event.target.style.backgroundColor = 'yellow',50);
           break;
         case '%':  
-          inputScreen.innerHTML = parseInt(inputScreen.innerHTML)/100;
+          if(parseInt(inputScreen.innerHTML)<=0){inputScreen.innerHTML = parseFloat(inputScreen.innerHTML)*100}
+          else{inputScreen.innerHTML = parseInt(inputScreen.innerHTML)/100}
           break;  
         case 'X':  
-          event.target.style.backgroundColor = 'white';
-          operator = text;
-          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          event.target.style.backgroundColor = 'green';
+          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';          
           break;
         case '/':  
           event.target.style.backgroundColor = 'white';
           operator = text;
-          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';
           break;
         case '-':  
           event.target.style.backgroundColor = 'white';
           operator = text;
-          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';
           break;
         case '+':  
           event.target.style.backgroundColor = 'white';
           operator = text;
-          if(calculation.length < 1){calculation.push(inputScreen.innerHTML)};
+          inputScreen.innerHTML+= ' '+event.target.innerHTML+' ';
           break;
+        case '=':
+        total.push(inputScreen.innerHTML.split(' '));
+        equaScreen.innerHTML = inputScreen.innerHTML;
+        break;
         default:
-          inputScreen.innerHTML+= event.target.innerHTML;
+        if(inputScreen.innerHTML ==='0' && event.target.innerHTML !== '.'){
+              inputScreen.innerHTML = event.target.innerHTML;
+        }
+         else {inputScreen.innerHTML+= event.target.innerHTML;}
           break;
       }
       })}
