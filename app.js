@@ -55,55 +55,72 @@ const checkForMultOperator = function(eventText){
 }
 for(btn of btnList){
   if(operatorList.indexOf(btn.innerHTML) !==-1){
-    btn.style.backgroundColor='white';
+    btn.style.backgroundColor= '#F0F05E';
 }
     btn.addEventListener('click',(event)=>{
       const eventText = event.target.innerHTML;
       switch (eventText){
         case 'AC':
+          event.target.style.backgroundColor = '#386A70';
           equatScreen.innerHTML='';
           inputScreen.innerHTML='0';
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
           break;
         case 'DEL':  
-          event.target.style.backgroundColor = 'yellow';
+          event.target.style.backgroundColor = '#386A70';
           inputScreen.innerHTML = inputScreen.innerHTML.slice(0,-1) == ''? '0' :inputScreen.innerHTML.slice(0,-1);
-          setTimeout(()=>event.target.style.backgroundColor = 'white',50);
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
           break;
         case '%':  
+          event.target.style.backgroundColor = '#386A70';
           if(parseInt(inputScreen.innerHTML)<=0){inputScreen.innerHTML = parseFloat(inputScreen.innerHTML)*100}
           else{inputScreen.innerHTML = parseInt(inputScreen.innerHTML)/100}
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
           break;  
         case 'X': 
+          event.target.style.backgroundColor = '#386A70';          
           calculationDone = false; 
-          event.target.style.backgroundColor = 'green';
-          checkForMultOperator(eventText);      
+          checkForMultOperator(eventText);   
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);   
           break;
         case '/':  
+          event.target.style.backgroundColor = '#386A70';
           calculationDone = false;
-          event.target.style.backgroundColor = 'green';
           checkForMultOperator(eventText);
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
           break;
         case '-':  
+          event.target.style.backgroundColor = '#386A70';
           calculationDone = false; 
-          event.target.style.backgroundColor = 'green';
           checkForMultOperator(eventText);
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
           break;
         case '+':  
-          calculationDone = false;
-          event.target.style.backgroundColor = 'green';
+        event.target.style.backgroundColor = '#386A70';
+        calculationDone = false;
           checkForMultOperator(eventText);
+          setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
           break;
         case '=':
+        event.target.style.backgroundColor = '#386A70';
         equatScreen.innerHTML = inputScreen.innerHTML;
-        inputScreen.innerHTML = calculateEquation(inputScreen.innerHTML.split(' '))
+        inputScreen.innerHTML = calculateEquation(inputScreen.innerHTML.split(' '));
+        setTimeout(()=>event.target.style.backgroundColor = '#F0F05E',50);
+        break;
+        case '.':
+        event.target.style.backgroundColor = '#F0F05E';
+        setTimeout(()=>event.target.style.backgroundColor = '#386A70',50);
+        if(inputScreen.innerHTML.indexOf('.')!==-1){break;}
+        else{inputScreen.innerHTML+= eventText;}
         break;
         default:
-
-        if(inputScreen.innerHTML ==='0' && eventText !== '.' || calculationDone == true){
+        event.target.style.backgroundColor = '#F0F05E';
+        if(inputScreen.innerHTML ==='0' || calculationDone == true){
               calculationDone = false;
               inputScreen.innerHTML = eventText;
         }
          else {inputScreen.innerHTML+= eventText;}
+         setTimeout(()=>event.target.style.backgroundColor = '#386A70',50);
           break;
       }
       });}
@@ -113,9 +130,7 @@ document.addEventListener("keyup",(event)=>{
     console.log(event);
     switch (eventKey){
       case 'Backspace':  
-        event.target.style.backgroundColor = 'yellow';
         inputScreen.innerHTML = inputScreen.innerHTML.slice(0,-1) == ''? '0' :inputScreen.innerHTML.slice(0,-1);
-        setTimeout(()=>event.target.style.backgroundColor = 'white',50);
         break;
       case '%':  
         if(parseInt(inputScreen.innerHTML)<=0){inputScreen.innerHTML = parseFloat(inputScreen.innerHTML)*100}

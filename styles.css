@@ -4,7 +4,7 @@ body{
 }
 .calc-container{
     margin: 10% auto 0 auto;
-    background-color: darkblue;
+    background-color:#2B3233;
     padding: 10px;
     width: 300px;
     height: 340px;
@@ -14,7 +14,7 @@ body{
     text-align: right;
     margin: 10px auto 0 auto;
     padding: 5px;
-    background-color: grey;
+    background-color: lightgray;
     width: calc(80% - 10px);
     min-height:60px;
 }
@@ -28,7 +28,6 @@ body{
     height: 28px;
 }
 .btn-container{
-    border: 1px solid brown;
     width: 80%;
     height: 60%;
     margin: 5% auto 0 auto;
@@ -38,7 +37,7 @@ body{
 .btn{
     flex: 1 1 24%;
     border: 1px solid black;
-    background-color: yellow;
+    background-color:#386A70;
     max-width: 200px;
     min-height: 20px;
     line-height: 250%;
